@@ -1,4 +1,4 @@
-name: CI/CD Backend Despachos - EKS Deploy
+name: CI/CD Frontend - EKS Deploy
 
 on:
   push:
@@ -26,15 +26,15 @@ jobs:
 
       - name: "4. Build de la imagen Docker"
         run: |
-          docker build -t backend-despacho ./Springboot-API-REST-DESPACHO
+          docker build -t front-despachos .
 
       - name: "5. Etiquetar imagen para ECR"
         run: |
-          docker tag backend-despacho:latest ${{ secrets.ECR_REGISTRY }}/backend-despacho:latest
+          docker tag front-despachos:latest ${{ secrets.ECR_REGISTRY }}/front-despachos:latest
 
       - name: "6. Push imagen a ECR"
         run: |
-          docker push ${{ secrets.ECR_REGISTRY }}/backend-despacho:latest
+          docker push ${{ secrets.ECR_REGISTRY }}/front-despachos:latest
 
       - name: "7. Configurar kubectl"
         run: |
@@ -43,5 +43,5 @@ jobs:
 
       - name: "8. Deploy en EKS"
         run: |
-          kubectl rollout restart deployment/backend-despachos -n innovatech
-          kubectl rollout status deployment/backend-despachos -n innovatech --timeout=180s
+          kubectl rollout restart deployment/frontend -n innovatech --insecure-skip-tls-verify
+          kubectl rollout status deployment/frontend -n innovatech --timeout=120s --insecure-skip-tls-verify
