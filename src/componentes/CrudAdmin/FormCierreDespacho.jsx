@@ -1,4 +1,4 @@
-// ============================================================
+﻿// ============================================================
 // FormCierreDespacho.jsx
 // Formulario para modificar o cerrar una orden de despacho
 // existente. Permite actualizar los intentos de entrega y
@@ -12,22 +12,22 @@ import axios from "axios";
 /**
  * Componente FormCierreDespacho
  * @param {Object} despacho - Datos del despacho seleccionado para modificar
- * @param {Function} onClose - Función que cierra el modal al finalizar
+ * @param {Function} onClose - FunciÃ³n que cierra el modal al finalizar
  */
 export const FormCierreDespacho = ({ despacho, onClose }) => {
-  // Hook de react-hook-form para gestionar el formulario y su validación
+  // Hook de react-hook-form para gestionar el formulario y su validaciÃ³n
   const { register, handleSubmit } = useForm();
 
   /**
-   * Función que se ejecuta al enviar el formulario.
+   * FunciÃ³n que se ejecuta al enviar el formulario.
    * Realiza un PUT al backend de despachos para actualizar
    * los intentos de entrega y el estado del despacho.
    *
-   * MODIFICACIÓN EP3: La URL apunta al LoadBalancer público de AWS EKS
+   * MODIFICACIÃ“N EP3: La URL apunta al LoadBalancer pÃºblico de AWS EKS
    * en el puerto 8081, el cual redirige internamente al servicio
    * backend-despachos-service mediante el nginx.conf configurado
-   * con DNS interno del clúster Kubernetes.
-   * Antes apuntaba a la IP estática 10.0.2.162 (instancia EC2 del EP2).
+   * con DNS interno del clÃºster Kubernetes.
+   * Antes apuntaba a la IP estÃ¡tica 10.0.2.162 (instancia EC2 del EP2).
    *
    * @param {Object} data - Datos capturados del formulario (intento, despachado)
    */
@@ -36,7 +36,7 @@ export const FormCierreDespacho = ({ despacho, onClose }) => {
 
     // Objeto con los campos editables a actualizar en el backend de despachos
     const jsonData = {
-      intento: data.intento,       // Número actualizado de intentos de entrega
+      intento: data.intento,       // NÃºmero actualizado de intentos de entrega
       despachado: data.despachado, // Estado del despacho: abierto o cerrado
     };
 
@@ -45,12 +45,12 @@ export const FormCierreDespacho = ({ despacho, onClose }) => {
     try {
       /**
        * PUT al backend de despachos para actualizar la orden existente.
-       * MODIFICACIÓN EP3: URL actualizada al LoadBalancer de EKS puerto 8081.
+       * MODIFICACIÃ“N EP3: URL actualizada al LoadBalancer de EKS puerto 8081.
        * nginx redirige internamente a backend-despachos-service:8081 (DNS interno K8s).
-       * El ID del despacho se incluye dinámicamente en la URL.
+       * El ID del despacho se incluye dinÃ¡micamente en la URL.
        */
       await axios.put(
-        `http://a25373e48e4b949bbaea4c9bd6eee8c7-2091625919.us-east-1.elb.amazonaws.com:8081/api/v1/despachos/${despacho.idDespacho}`,
+        `http://a9e13c399daf24711a9cf974faaee570-172120476.us-east-1.elb.amazonaws.com:8081/api/v1/despachos/${despacho.idDespacho}`,
         jsonData,
         {
           headers: {
@@ -60,9 +60,9 @@ export const FormCierreDespacho = ({ despacho, onClose }) => {
         }
       );
 
-      // Notificación de éxito al usuario tras modificar el despacho correctamente
+      // NotificaciÃ³n de Ã©xito al usuario tras modificar el despacho correctamente
       Swal.fire({
-        title: "Despacho modificado 🛻!",
+        title: "Despacho modificado ðŸ›»!",
         text: "El despacho ha sido modificado exitosamente",
         icon: "success",
         confirmButtonText: "Aceptar",
@@ -86,7 +86,7 @@ export const FormCierreDespacho = ({ despacho, onClose }) => {
           Editar y cierre de despacho
         </div>
 
-        {/* Campo de solo lectura: identificador único del despacho */}
+        {/* Campo de solo lectura: identificador Ãºnico del despacho */}
         <div className="mb-5">
           <label className="block font-bold mb-2">ID despacho</label>
           <input
@@ -103,16 +103,16 @@ export const FormCierreDespacho = ({ despacho, onClose }) => {
           <label className="block font-bold mb-2">Fecha despacho</label>
           <input
             type="date"
-            placeholder="Elige patente de camión"
+            placeholder="Elige patente de camiÃ³n"
             className="border border-gray-300 rounded-lg block w-full text-slate-400 p-1"
             value={despacho.fechaDespacho}
             disabled={true}
           />
         </div>
 
-        {/* Campo de solo lectura: patente del camión asignado */}
+        {/* Campo de solo lectura: patente del camiÃ³n asignado */}
         <div className="mb-5">
-          <label className="block font-bold mb-2">Patente Camión</label>
+          <label className="block font-bold mb-2">Patente CamiÃ³n</label>
           <input
             type="text"
             disabled={true}
@@ -121,7 +121,7 @@ export const FormCierreDespacho = ({ despacho, onClose }) => {
           />
         </div>
 
-        {/* Campo editable: número de intentos de entrega realizados */}
+        {/* Campo editable: nÃºmero de intentos de entrega realizados */}
         <div className="mb-5">
           <label className="block font-bold mb-2">Intentos de entrega</label>
           <input
@@ -156,9 +156,9 @@ export const FormCierreDespacho = ({ despacho, onClose }) => {
           />
         </div>
 
-        {/* Campo de solo lectura: dirección de entrega del despacho */}
+        {/* Campo de solo lectura: direcciÃ³n de entrega del despacho */}
         <div className="mb-5">
-          <label className="block font-bold mb-2">Dirección Compra</label>
+          <label className="block font-bold mb-2">DirecciÃ³n Compra</label>
           <input
             type="text"
             className="border border-gray-300 rounded-lg block w-full text-slate-400 p-1"
@@ -178,7 +178,7 @@ export const FormCierreDespacho = ({ despacho, onClose }) => {
           />
         </div>
 
-        {/* Botón de envío que dispara la función onSubmit */}
+        {/* BotÃ³n de envÃ­o que dispara la funciÃ³n onSubmit */}
         <button
           className="py-6 px-14 rounded-lg bg-teal-600 text-white font-bold mb-14"
           type="submit"
@@ -189,3 +189,4 @@ export const FormCierreDespacho = ({ despacho, onClose }) => {
     </>
   );
 };
+

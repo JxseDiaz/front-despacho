@@ -1,4 +1,4 @@
-// ============================================================
+﻿// ============================================================
 // FormDespacho.jsx
 // Formulario para registrar una nueva orden de despacho.
 // Recibe como prop la venta seleccionada y genera el despacho
@@ -13,22 +13,22 @@ import axios from "axios";
 /**
  * Componente FormDespacho
  * @param {Object} venta - Datos de la venta seleccionada para despachar
- * @param {Function} onClose - Función que cierra el modal al finalizar
+ * @param {Function} onClose - FunciÃ³n que cierra el modal al finalizar
  */
 export const FormDespacho = ({ venta, onClose }) => {
-  // Hook de react-hook-form para gestionar el formulario y su validación
+  // Hook de react-hook-form para gestionar el formulario y su validaciÃ³n
   const { register, handleSubmit } = useForm();
 
   /**
-   * Función que se ejecuta al enviar el formulario.
+   * FunciÃ³n que se ejecuta al enviar el formulario.
    * Realiza dos llamadas HTTP secuenciales:
    * 1. PUT al backend de ventas: marca la venta como despachada
    * 2. POST al backend de despachos: registra la nueva orden de despacho
    *
-   * MODIFICACIÓN EP3: Las URLs apuntan al LoadBalancer público de AWS EKS.
+   * MODIFICACIÃ“N EP3: Las URLs apuntan al LoadBalancer pÃºblico de AWS EKS.
    * El LoadBalancer redirige internamente a los servicios Kubernetes
-   * mediante el nginx.conf actualizado con DNS interno del clúster.
-   * Antes apuntaban a la IP estática 10.0.2.162 (instancia EC2 del EP2).
+   * mediante el nginx.conf actualizado con DNS interno del clÃºster.
+   * Antes apuntaban a la IP estÃ¡tica 10.0.2.162 (instancia EC2 del EP2).
    *
    * @param {Object} data - Datos capturados del formulario (fechaDespacho, patenteCamion)
    */
@@ -55,12 +55,12 @@ export const FormDespacho = ({ venta, onClose }) => {
 
     try {
       /**
-       * Paso 1: Actualiza la venta en el backend de ventas marcándola como despachada.
-       * MODIFICACIÓN EP3: URL actualizada al LoadBalancer de EKS puerto 8080.
+       * Paso 1: Actualiza la venta en el backend de ventas marcÃ¡ndola como despachada.
+       * MODIFICACIÃ“N EP3: URL actualizada al LoadBalancer de EKS puerto 8080.
        * nginx redirige internamente a backend-ventas-service:8080 (DNS interno K8s).
        */
       await axios.put(
-        `http://a25373e48e4b949bbaea4c9bd6eee8c7-2091625919.us-east-1.elb.amazonaws.com:8080/api/v1/ventas/${venta.idVenta}`,
+        `http://a9e13c399daf24711a9cf974faaee570-172120476.us-east-1.elb.amazonaws.com:8080/api/v1/ventas/${venta.idVenta}`,
         jsonDataSales,
         {
           headers: {
@@ -72,11 +72,11 @@ export const FormDespacho = ({ venta, onClose }) => {
 
       /**
        * Paso 2: Registra la nueva orden de despacho en el backend de despachos.
-       * MODIFICACIÓN EP3: URL actualizada al LoadBalancer de EKS puerto 8081.
+       * MODIFICACIÃ“N EP3: URL actualizada al LoadBalancer de EKS puerto 8081.
        * nginx redirige internamente a backend-despachos-service:8081 (DNS interno K8s).
        */
       await axios.post(
-        "http://a25373e48e4b949bbaea4c9bd6eee8c7-2091625919.us-east-1.elb.amazonaws.com:8081/api/v1/despachos",
+        "http://a9e13c399daf24711a9cf974faaee570-172120476.us-east-1.elb.amazonaws.com:8081/api/v1/despachos",
         jsonData,
         {
           headers: {
@@ -86,10 +86,10 @@ export const FormDespacho = ({ venta, onClose }) => {
         }
       );
 
-      // Notificación de éxito al usuario tras registrar el despacho correctamente
+      // NotificaciÃ³n de Ã©xito al usuario tras registrar el despacho correctamente
       Swal.fire({
-        title: "Despacho registrado 🛻!",
-        text: "El despacho ha sido generado con éxito en la base de datos",
+        title: "Despacho registrado ðŸ›»!",
+        text: "El despacho ha sido generado con Ã©xito en la base de datos",
         icon: "success",
         confirmButtonText: "Aceptar",
       });
@@ -112,7 +112,7 @@ export const FormDespacho = ({ venta, onClose }) => {
           Ingreso de orden de despacho
         </div>
 
-        {/* Campo editable: fecha en que se realizará el despacho */}
+        {/* Campo editable: fecha en que se realizarÃ¡ el despacho */}
         <div className="mb-5">
           <label className="block font-bold mb-2">Fecha de despacho</label>
           <input
@@ -123,12 +123,12 @@ export const FormDespacho = ({ venta, onClose }) => {
           />
         </div>
 
-        {/* Campo editable: patente del camión asignado al despacho */}
+        {/* Campo editable: patente del camiÃ³n asignado al despacho */}
         <div className="mb-5">
-          <label className="block font-bold mb-2">Patente de camión</label>
+          <label className="block font-bold mb-2">Patente de camiÃ³n</label>
           <input
             type="text"
-            placeholder="Elige patente de camión"
+            placeholder="Elige patente de camiÃ³n"
             className="border border-gray-300 rounded-lg block w-full p-1"
             {...register("patenteCamion", { required: true })}
           />
@@ -147,9 +147,9 @@ export const FormDespacho = ({ venta, onClose }) => {
           />
         </div>
 
-        {/* Campo de solo lectura: dirección de entrega heredada de la venta */}
+        {/* Campo de solo lectura: direcciÃ³n de entrega heredada de la venta */}
         <div className="mb-5">
-          <label className="block font-bold mb-2">Dirección de entrega</label>
+          <label className="block font-bold mb-2">DirecciÃ³n de entrega</label>
           <input
             type="text"
             disabled={true}
@@ -169,7 +169,7 @@ export const FormDespacho = ({ venta, onClose }) => {
           />
         </div>
 
-        {/* Botón de envío que dispara la función onSubmit */}
+        {/* BotÃ³n de envÃ­o que dispara la funciÃ³n onSubmit */}
         <button
           className="py-6 px-14 rounded-lg bg-teal-600 text-white font-bold mb-14"
           type="submit"
@@ -180,3 +180,4 @@ export const FormDespacho = ({ venta, onClose }) => {
     </>
   );
 };
+

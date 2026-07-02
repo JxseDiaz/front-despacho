@@ -1,6 +1,6 @@
-// ============================================================
+﻿// ============================================================
 // TableCompras.jsx
-// Componente que muestra la tabla de órdenes de compra
+// Componente que muestra la tabla de Ã³rdenes de compra
 // pendientes de despacho, obtenidas desde el backend de ventas.
 // Permite generar un despacho para cada orden disponible.
 // ============================================================
@@ -15,16 +15,16 @@ export const TableCompras = () => {
   const [ventas, setVentas] = useState([]);
 
   /**
-   * Función asíncrona que consulta el endpoint del backend de ventas.
-   * MODIFICACIÓN EP3: La URL apunta al LoadBalancer público de AWS EKS
+   * FunciÃ³n asÃ­ncrona que consulta el endpoint del backend de ventas.
+   * MODIFICACIÃ“N EP3: La URL apunta al LoadBalancer pÃºblico de AWS EKS
    * en el puerto 8080, el cual redirige internamente al servicio
    * backend-ventas-service mediante el nginx.conf configurado.
-   * Antes apuntaba a la IP estática 10.0.2.162 (instancia EC2 del EP2).
+   * Antes apuntaba a la IP estÃ¡tica 10.0.2.162 (instancia EC2 del EP2).
    */
   const compras = async () => {
     await axios
       .get(
-        "http://a25373e48e4b949bbaea4c9bd6eee8c7-2091625919.us-east-1.elb.amazonaws.com:8080/api/v1/ventas",
+        "http://a9e13c399daf24711a9cf974faaee570-172120476.us-east-1.elb.amazonaws.com:8080/api/v1/ventas",
         {
           headers: {
             "Content-Type": "application/json",
@@ -39,7 +39,7 @@ export const TableCompras = () => {
       });
   };
 
-  // Llamada a la función para obtener los datos cuando el componente se monta
+  // Llamada a la funciÃ³n para obtener los datos cuando el componente se monta
   useEffect(() => {
     compras();
   }, []);
@@ -64,7 +64,7 @@ export const TableCompras = () => {
       <section className="grid text-center grid-cols-12 mb-8">
         <div className="col-span-12 flex justify-center">
           <div className="col-span-10 p-2 bg-white border border-gray-200 rounded-lg shadow dark:bg-white h-full overflow-hidden">
-            {/* Tabla que lista las órdenes de compra sin despacho generado */}
+            {/* Tabla que lista las Ã³rdenes de compra sin despacho generado */}
             <table className="table-fixed">
               <thead>
                 <tr className="py-10">
@@ -76,7 +76,7 @@ export const TableCompras = () => {
                 </tr>
               </thead>
               <tbody>
-                {/* Filtra solo las ventas que aún no tienen despacho generado */}
+                {/* Filtra solo las ventas que aÃºn no tienen despacho generado */}
                 {ventas
                   .filter((venta) => !venta.despachoGenerado)
                   .map((venta) => (
@@ -94,7 +94,7 @@ export const TableCompras = () => {
                         ${venta.valorCompra}
                       </td>
                       <td>
-                        {/* Botón que abre el modal para generar el despacho */}
+                        {/* BotÃ³n que abre el modal para generar el despacho */}
                         <button
                           onClick={() => handleAbrirModal(venta)}
                           className="py-1 bg-orange-200 px-8 rounded-xl shadow-md hover:bg-orange-300/70 transition-all duration-300 "
@@ -131,3 +131,4 @@ export const TableCompras = () => {
     </>
   );
 };
+

@@ -1,6 +1,6 @@
-// ============================================================
+﻿// ============================================================
 // TableDespachos.jsx
-// Componente que muestra la tabla de órdenes de despacho
+// Componente que muestra la tabla de Ã³rdenes de despacho
 // registradas en el sistema, obtenidas desde el backend de
 // despachos. Permite cerrar o modificar cada despacho.
 // ============================================================
@@ -15,16 +15,16 @@ export const TableDespachos = () => {
   const [despachos, setDespachos] = useState([]);
 
   /**
-   * Función asíncrona que consulta el endpoint del backend de despachos.
-   * MODIFICACIÓN EP3: La URL apunta al LoadBalancer público de AWS EKS
+   * FunciÃ³n asÃ­ncrona que consulta el endpoint del backend de despachos.
+   * MODIFICACIÃ“N EP3: La URL apunta al LoadBalancer pÃºblico de AWS EKS
    * en el puerto 8081, el cual redirige internamente al servicio
    * backend-despachos-service mediante el nginx.conf configurado.
-   * Antes apuntaba a la IP estática 10.0.2.162 (instancia EC2 del EP2).
+   * Antes apuntaba a la IP estÃ¡tica 10.0.2.162 (instancia EC2 del EP2).
    */
   const despacho = async () => {
     await axios
       .get(
-        "http://a25373e48e4b949bbaea4c9bd6eee8c7-2091625919.us-east-1.elb.amazonaws.com:8081/api/v1/despachos",
+        "http://a9e13c399daf24711a9cf974faaee570-172120476.us-east-1.elb.amazonaws.com:8081/api/v1/despachos",
         {
           headers: {
             "Content-Type": "application/json",
@@ -39,7 +39,7 @@ export const TableDespachos = () => {
       });
   };
 
-  // Llamada a la función para obtener los datos cuando el componente se monta
+  // Llamada a la funciÃ³n para obtener los datos cuando el componente se monta
   useEffect(() => {
     despacho();
   }, []);
@@ -47,7 +47,7 @@ export const TableDespachos = () => {
   // State que controla la visibilidad del modal
   const [openModal, setOpenModal] = useState(false);
 
-  // State que almacena el despacho seleccionado para su modificación o cierre
+  // State que almacena el despacho seleccionado para su modificaciÃ³n o cierre
   const [despachoSeleccionado, setDespachoSeleccionado] = useState(null);
 
   /**
@@ -70,9 +70,9 @@ export const TableDespachos = () => {
                 <tr className="py-10">
                   <th className="pr-10">Orden de despacho</th>
                   <th className="pr-10">Orden de compra</th>
-                  <th className="pr-10">Dirección de entrega</th>
+                  <th className="pr-10">DirecciÃ³n de entrega</th>
                   <th className="pr-10">Fecha despacho</th>
-                  <th className="pr-10">Patente Camión</th>
+                  <th className="pr-10">Patente CamiÃ³n</th>
                   <th className="pr-10">Entregado</th>
                   <th className="pr-10">Intentos de entrega</th>
                 </tr>
@@ -96,7 +96,7 @@ export const TableDespachos = () => {
                     <td className="pr-10 py-10  items-center">
                       {despacho.patenteCamion}
                     </td>
-                    {/* Muestra el estado del despacho según el campo entregado */}
+                    {/* Muestra el estado del despacho segÃºn el campo entregado */}
                     <td className="pr-10 py-10  items-center">
                       {despacho.entregado
                         ? "Despacho entregado"
@@ -106,7 +106,7 @@ export const TableDespachos = () => {
                       {despacho.intento}
                     </td>
                     <td>
-                      {/* Botón que abre el modal para cerrar o modificar el despacho */}
+                      {/* BotÃ³n que abre el modal para cerrar o modificar el despacho */}
                       <button
                         onClick={() => handleAbrirModal(despacho)}
                         className="py-1 bg-orange-200 px-8 rounded-xl shadow-md hover:bg-orange-300/70 transition-all duration-300 "
@@ -143,3 +143,4 @@ export const TableDespachos = () => {
     </>
   );
 };
+

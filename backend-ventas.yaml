@@ -1,0 +1,49 @@
+﻿apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-ventas
+  namespace: innovatech
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: backend-ventas
+  template:
+    metadata:
+      labels:
+        app: backend-ventas
+    spec:
+      containers:
+      - name: backend-ventas
+        image: 951103920196.dkr.ecr.us-east-1.amazonaws.com/backend-ventas:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+        env:
+        - name: SPRING_DATASOURCE_URL
+          value: "jdbc:mysql://mysql-ventas-service:3306/ventas_db?useSSL=false&allowPublicKeyRetrieval=true"
+        - name: SPRING_DATASOURCE_USERNAME
+          valueFrom:
+            secretKeyRef: { name: ventas-secret, key: SPRING_DATASOURCE_USERNAME }
+        - name: SPRING_DATASOURCE_PASSWORD
+          valueFrom:
+            secretKeyRef: { name: ventas-secret, key: SPRING_DATASOURCE_PASSWORD }
+        - name: SPRING_JPA_HIBERNATE_DDL_AUTO
+          value: "update"
+        - name: SERVER_PORT
+          value: "8080"
+        resources:
+          requests: { cpu: "100m", memory: "256Mi" }
+          limits: { cpu: "500m", memory: "512Mi" }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-ventas-service
+  namespace: innovatech
+spec:
+  selector:
+    app: backend-ventas
+  ports:
+  - port: 8080
+    targetPort: 8080
